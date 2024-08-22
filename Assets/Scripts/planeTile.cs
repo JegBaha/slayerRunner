@@ -13,22 +13,40 @@ public class planeTile : MonoBehaviour
     [SerializeField] private GameObject _zombieT;
     [SerializeField] private GameObject _jumpPad;
     [SerializeField] private GameObject _rollAbleObstacle;
+    [SerializeField] private GameObject _dashItem;
 
+    private int horizontalObstIndex;
     void Start()
     {
         _endlessSpawner = GameObject.FindObjectOfType<endlessSpawner>();
-        spawnObstacleThing();
-        spawnScore();
-        spawnhorizontalObstacle();
-        spawnGrabAbleting();
-        spawnJumpPad();
-        spawnZombie();
+        spawnThing();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    private void spawnThing()
+    {
+        int _randomThing = Random.Range(0, 15);
+        if (_randomThing == 6)
+        
+            spawnZombie();
+        if(_randomThing<6)
+            spawnDashItem();
+        if(_randomThing>12)
+            spawnJumpPad();
+        if (_randomThing > 10 && _randomThing <= 12)
+            spawnGrabAbleting();
+
+        spawnObstacleThing();
+        spawnScore();
+        spawnhorizontalObstacle();
+    
+    
+     
+      
     }
     private void OnTriggerExit(Collider other)
     {
@@ -56,31 +74,39 @@ public class planeTile : MonoBehaviour
     private void spawnhorizontalObstacle()
     {
         int obstacleIndex = Random.Range(2, 5);
+        horizontalObstIndex = obstacleIndex;
         Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
-
+      
         Instantiate(_horizontalObstacle, spawnPoint.position, Quaternion.identity, transform);
     }
     private void spawnGrabAbleting()
     {
-        int obstacleIndex = Random.Range(6, 9);
-        Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
+
+        Transform spawnPoint = transform.GetChild(12).transform;
 
         Instantiate(_grabAbleObstacle, spawnPoint.position, Quaternion.identity, transform);
     }
     private void spawnJumpPad()
     {
-        int _randomThing = Random.Range(0, 15);
-        Transform spawnPoint = transform.GetChild(3).transform;
-        if(_randomThing==2)
-            Instantiate(_jumpPad, spawnPoint.position, Quaternion.identity, transform);
+       
+        Transform spawnPoint = transform.GetChild(11).transform;
+   
+        Instantiate(_jumpPad, spawnPoint.position, Quaternion.identity, transform);
+    }
+    private void spawnDashItem()
+    {
+       
+        Transform spawnPoint = transform.GetChild(11).transform;
+
+        Instantiate(_dashItem, spawnPoint.position, Quaternion.identity, transform);
     }
 
     private void spawnZombie()
     {
-        int _randomThing = Random.Range(0, 15);
-        Transform spawnPoint = transform.GetChild(3).transform;
-        if (_randomThing == 2)
-            Instantiate(_zombieT, spawnPoint.position, Quaternion.identity, transform);
+        
+        Transform spawnPoint = transform.GetChild(11).transform;
+     
+        Instantiate(_zombieT, spawnPoint.position, Quaternion.identity, transform);
     }
     private void spawnScore()
     {

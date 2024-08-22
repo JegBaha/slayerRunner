@@ -6,6 +6,7 @@ public class jumpPad : MonoBehaviour
 {
     // Start is called before the first frame update
     playerMov _playerMov;
+    endlessSpawner _endlessSpawner;
  
     void Start()
     {
@@ -17,20 +18,15 @@ public class jumpPad : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-
-            _playerMov.jumpPadFuncThing();
-        }
-    }
+ 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Player")
         {
             
             _playerMov.jumpPadFuncThing();
+
+   
         }
     }
 }

@@ -20,8 +20,12 @@ public class grabable : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             StartCoroutine(_playerMov.grabAbleThing());
-            
-           
+
+
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

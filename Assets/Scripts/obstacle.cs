@@ -15,6 +15,10 @@ public class obstacle : MonoBehaviour
         {
             _playerMov.Die();
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void Update()
     {

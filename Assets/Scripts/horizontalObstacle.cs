@@ -5,6 +5,7 @@ using UnityEngine;
 public class horizontalObstacle : MonoBehaviour
 {
     playerMov _playerMov;
+    [SerializeField] private GameObject _explosion;
     void Start()
     {
         _playerMov = GameObject.FindObjectOfType<playerMov>();
@@ -22,7 +23,9 @@ public class horizontalObstacle : MonoBehaviour
             
             if (_playerMov._dsahAble)
             {
-               gameObject.SetActive(false); 
+               gameObject.SetActive(false);
+                Instantiate(_explosion, this.gameObject.transform);
+               
 
             }
             else

@@ -47,7 +47,8 @@ public class zombieScript : MonoBehaviour
 
             if (_playerMov._dsahAble)
             {
-                gameObject.SetActive(false);
+               gameObject.SetActive(false);
+                _playerMov.dashItemUpper(3);
 
             }
             else
@@ -55,5 +56,6 @@ public class zombieScript : MonoBehaviour
                 _playerMov.Die();
             }
         }
+      
     }
 }
