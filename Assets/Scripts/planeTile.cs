@@ -5,6 +5,7 @@ using UnityEngine;
 public class planeTile : MonoBehaviour
 {
     endlessSpawner _endlessSpawner;
+    playerMov _playerMov;
     [SerializeField] private GameObject _obstaclePrefab;
     [SerializeField] int coinsToSpawn = 10;
     [SerializeField] private GameObject _scorePreFab;
@@ -14,6 +15,7 @@ public class planeTile : MonoBehaviour
     [SerializeField] private GameObject _jumpPad;
     [SerializeField] private GameObject _rollAbleObstacle;
     [SerializeField] private GameObject _dashItem;
+    private float coolDownThing;
 
     private int horizontalObstIndex;
     void Start()
@@ -25,7 +27,7 @@ public class planeTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        coolDownThing = _playerMov.currentPastTime;
     }
     private void spawnThing()
     {
@@ -40,10 +42,8 @@ public class planeTile : MonoBehaviour
         if (_randomThing > 10 && _randomThing <= 12)
             spawnGrabAbleting();
 
-        spawnObstacleThing();
-        spawnScore();
-        spawnhorizontalObstacle();
-    
+
+        allSpawnFunc();
     
      
       
@@ -53,20 +53,28 @@ public class planeTile : MonoBehaviour
         _endlessSpawner.spawnRoad();
         Destroy(gameObject, 2);
     }
-
-    private void spawnObstacleThing()
+    private void allSpawnFunc()
     {
+     
         int obstacleIndex = Random.Range(2, 5);
-        Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
-        if (obstacleIndex == 4)
-        {
-            int newIndex = Random.Range(7, 10);
-            Transform rollAble = transform.GetChild(newIndex).transform;
-            Instantiate(_rollAbleObstacle, rollAble.position, Quaternion.identity, transform);
-        }
-            
-        else
-            Instantiate(_obstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
+        spawnObstacleThing(obstacleIndex);
+        spawnScore();
+        spawnhorizontalObstacle();
+        spawnRollabel();
+    }
+    private void spawnRollabel()
+    {
+        int newIndex = Random.Range(8, 10);
+        Transform rollAble = transform.GetChild(newIndex).transform;
+        Instantiate(_rollAbleObstacle, rollAble.position, Quaternion.identity, transform);
+    }
+    private void spawnObstacleThing(int obst)
+    {
+        
+        Transform spawnPoint = transform.GetChild(obst).transform;
+     
+  
+        Instantiate(_obstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
 
         
 
@@ -74,6 +82,7 @@ public class planeTile : MonoBehaviour
     private void spawnhorizontalObstacle()
     {
         int obstacleIndex = Random.Range(2, 5);
+  
         horizontalObstIndex = obstacleIndex;
         Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
       

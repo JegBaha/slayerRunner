@@ -19,22 +19,27 @@ public class playerMov : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool isMoveAble = true;
-    [SerializeField] private Animator playerAnim;
+    [SerializeField] public Animator playerAnim;
     [SerializeField] public bool isInRoll = false;
     [SerializeField] private int doubleJump = 2;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private int dashAbleCount = 2;
     [SerializeField] private TextMeshProUGUI dashText;
-    [SerializeField] private float currentPastTime = 0f;
+    [SerializeField] public float currentPastTime = 0f;
     [SerializeField] private float tempTimeThing;
     [SerializeField] private TextMeshProUGUI currentTimeText;
     [SerializeField] private int coinCount = 0;
     [SerializeField] private int levelCount;
     [SerializeField] private float _currentSpeed = 11f;
+    [SerializeField] private AudioSource _music1;
+    [SerializeField] private AudioSource _music2;
+    [SerializeField] private AudioSource _music3;
+    [SerializeField] private AudioSource _diesong;
+    private AudioClip _musicClip;
     score _score;
     void Start()
     {
-       
+        musicFunThing();
     }
 
 
@@ -45,6 +50,24 @@ public class playerMov : MonoBehaviour
         updateMovThing();
         updateFuncThing();
 
+
+
+    }
+  private void musicFunThing()
+    {
+        int _randomThing = Random.Range(0, 3);
+        if (_randomThing == 1)
+        {
+            _music1.gameObject.SetActive(true);
+        }
+        if (_randomThing == 0)
+        {
+            _music2.gameObject.SetActive(true);
+        }
+        if(_randomThing>=2)
+        {
+            _music3.gameObject.SetActive(true);
+        }
     }
     private void updateFuncThing()
     {
@@ -98,14 +121,14 @@ public class playerMov : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space)&&isGrounded&&doubleJump>0)
         {
-
+            playerAnim.SetTrigger("isJump");
             StartCoroutine(jumpThing());
    
         }
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             rollThing();
-     
 
 
         }
@@ -119,13 +142,20 @@ public class playerMov : MonoBehaviour
             levelCount = 0;
             _currentSpeed += 0.8f;
         }
-       
+        if(Input.GetKeyUp(KeyCode.Space))
+            playerAnim.ResetTrigger("isJump");
+
+
 
     }
     public void Die()
     {
+        _music1.gameObject.SetActive(false);    
+        _music2.gameObject.SetActive(false);
+        _music3.gameObject.SetActive(false);
+        _diesong.gameObject.SetActive(true);
         aliveThing = false;
-    
+        playerAnim.Play("death");
         Invoke("Restart", 2);
            }
     public void Restart()
@@ -154,7 +184,10 @@ public class playerMov : MonoBehaviour
     private IEnumerator jumpThing()
     {
         _rb.AddForce(Vector3.up * jumpForce*1.5f);
+       
         yield return new WaitForSeconds(2.0f);
+        
+
         StopCoroutine(jumpThing()); 
     }
     public IEnumerator grabAbleThing()

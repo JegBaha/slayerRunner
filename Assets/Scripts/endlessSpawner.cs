@@ -8,7 +8,8 @@ public class endlessSpawner : MonoBehaviour
     [SerializeField] Vector3 nextSpawn;
     void Start()
     {
-      for(int i = 0; i < 15; i++)
+     
+        for (int i = 0; i < 30; i++)
         {
             spawnRoad();
         
